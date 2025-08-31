@@ -5,14 +5,9 @@ import {
   Package,
   ShoppingCart,
   Users,
-  Settings,
-  GalleryHorizontalEnd,
-  HelpCircle,
-  TrendingUp,
   X,
   LogOut,
   FolderTree,
-  TruckElectric,
 } from "lucide-react";
 import { useAppDispatch } from "../../../redux/hooks";
 import { logout } from "../../../redux/slice/auth";
@@ -33,15 +28,10 @@ const Sidebar: React.FC<SidebarProps> = ({
   const dispatch = useAppDispatch();
   const menuItems = [
     { id: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-    { id: "products", label: "Products", icon: Package },
-    { id: "categories", label: "Categories", icon: FolderTree },
+    { id: "movies", label: "Movies", icon: Package },
+    { id: "reviews", label: "Reviews", icon: FolderTree },
     { id: "orders", label: "Orders", icon: ShoppingCart },
-    { id: "customers", label: "Customers", icon: Users },
-    { id: "analytics", label: "Analytics", icon: TrendingUp },
-    { id: "pricesetting", label: "Price Setting", icon: TruckElectric },
-    { id: "banner", label: "Banner", icon: GalleryHorizontalEnd },
-    { id: "support", label: "Support", icon: HelpCircle },
-    { id: "settings", label: "Settings", icon: Settings },
+    { id: "users", label: "Users", icon: Users },
   ];
   const handleLogout = async () => {
     dispatch(logout());

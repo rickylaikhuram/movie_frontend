@@ -5,7 +5,7 @@ import Error from "../pages/error";
 
 const AdminRoutes = (
   <Route element={<AdminMainLayout />}>
-    <Route path="/" element={<Movies />} />
+    <Route path="/movies" element={<Movies />} />
     <Route path="*" element={<Error />} />
   </Route>
 );
