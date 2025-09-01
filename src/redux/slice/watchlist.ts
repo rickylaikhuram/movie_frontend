@@ -10,17 +10,26 @@ interface WatchlistIdsResponse {
   watchListIds: string[];
 }
 
-interface WatchlistMovie {
+export interface WatchlistMovie {
   id: string;
   title: string;
   posterUrl: string;
   releaseYear: string;
   genres: string[];
-  averageRating: number | null;
+  averageRating: number | null; // Made consistent - not optional
+  synopsis?: string; // Optional since it might not always be included
 }
 
+// Watchlist entry structure from API
+interface WatchlistEntry {
+  id: string; // This is the watchlist entry ID
+  movies: WatchlistMovie; // This contains the actual movie data
+}
+
+// Updated API response structure to match your actual API
 interface WatchlistResponse {
-  movies: WatchlistMovie[];
+  message: string;
+  watchList: WatchlistEntry[] | null;
 }
 
 // Async thunks
@@ -54,7 +63,7 @@ export const fetchWatchlist = createAsyncThunk(
   }
 );
 
-// Types
+// State interface
 interface WatchlistState {
   watchlistedIds: string[];
   movies: WatchlistMovie[];
@@ -129,7 +138,7 @@ const watchlistSlice = createSlice({
         state.error = action.error.message || "Failed to fetch watchlist IDs";
       })
 
-      // Fetch full watchlist
+      // Fetch full watchlist - Updated to handle the nested API response
       .addCase(fetchWatchlist.pending, (state) => {
         state.loading = true;
         state.error = null;
@@ -138,9 +147,17 @@ const watchlistSlice = createSlice({
         fetchWatchlist.fulfilled,
         (state, action: PayloadAction<WatchlistResponse>) => {
           state.loading = false;
-          state.movies = action.payload.movies;
-          // Also update watchlistedIds from the movies
-          state.watchlistedIds = action.payload.movies.map((movie) => movie.id);
+          // Handle the case where watchList can be null
+          const watchlistEntries = action.payload.watchList || [];
+          // Extract the actual movie data from the nested structure
+          const movies: WatchlistMovie[] = watchlistEntries.map((entry) => ({
+            ...entry.movies,
+            // Ensure averageRating is properly typed as number | null
+            averageRating: entry.movies.averageRating ?? null,
+          }));
+          state.movies = movies;
+          // Also update watchlistedIds from the movie IDs
+          state.watchlistedIds = movies.map((movie) => movie.id);
         }
       )
       .addCase(fetchWatchlist.rejected, (state, action) => {

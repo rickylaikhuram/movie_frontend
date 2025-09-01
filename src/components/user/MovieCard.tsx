@@ -19,7 +19,7 @@ interface MovieCardProps {
 const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
   const handleImageError = (e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     const target = e.target as HTMLImageElement;
-    target.src = 'https://via.placeholder.com/300x450/e5e7eb/9ca3af?text=No+Image';
+    target.src = 'https://via.placeholder.com/200x300/e5e7eb/9ca3af?text=No+Image';
   };
 
   const formatRating = (rating: number | null): string => {
@@ -38,7 +38,7 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-lg shadow-md hover:shadow-xl transition-all duration-300 cursor-pointer transform hover:-translate-y-2 group overflow-hidden"
+      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-all duration-300 cursor-pointer transform hover:-translate-y-1 group overflow-hidden w-full max-w-[220px] mx-auto"
     >
       {/* Movie Poster */}
       <div className="relative overflow-hidden">
@@ -46,13 +46,13 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
           src={movie.posterUrl}
           alt={movie.title}
           onError={handleImageError}
-          className="w-full h-64 sm:h-72 object-cover group-hover:scale-105 transition-transform duration-300"
+          className="w-full h-56 object-cover group-hover:scale-105 transition-transform duration-300"
         />
         
         {/* Rating Badge */}
-        <div className="absolute top-3 right-3">
-          <div className={`flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${getRatingColor(movie.averageRating)}`}>
-            <Star size={12} className="fill-current" />
+        <div className="absolute top-2 right-2">
+          <div className={`flex items-center gap-1 px-1.5 py-0.5 rounded-full text-xs font-medium ${getRatingColor(movie.averageRating)}`}>
+            <Star size={10} className="fill-current" />
             <span>{formatRating(movie.averageRating)}</span>
           </div>
         </div>
@@ -64,35 +64,35 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
       {/* Movie Details */}
       <div className="p-4">
         {/* Title */}
-        <h3 className="font-bold text-lg text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
+        <h3 className="font-semibold text-base text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors leading-tight">
           {movie.title}
         </h3>
 
-        {/* Release Year */}
-        <div className="flex items-center gap-1 text-gray-600 text-sm mb-2">
-          <Calendar size={14} />
-          <span>{movie.releaseYear}</span>
+        {/* Release Year & Director */}
+        <div className="space-y-1.5 mb-3">
+          <div className="flex items-center gap-1 text-gray-600 text-sm">
+            <Calendar size={14} />
+            <span>{movie.releaseYear}</span>
+          </div>
+          <div className="flex items-center gap-1 text-gray-600 text-sm">
+            <User size={14} />
+            <span className="line-clamp-1">{movie.director}</span>
+          </div>
         </div>
 
-        {/* Director */}
-        <div className="flex items-center gap-1 text-gray-600 text-sm mb-3">
-          <User size={14} />
-          <span className="line-clamp-1">{movie.director}</span>
-        </div>
-
-        {/* Genres */}
-        <div className="flex flex-wrap gap-1 mb-3">
-          {movie.genres.slice(0, 3).map((genre, index) => (
+        {/* Genres - Show max 2 */}
+        <div className="flex flex-wrap gap-1.5 mb-3">
+          {movie.genres.slice(0, 2).map((genre, index) => (
             <span
               key={index}
-              className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full font-medium"
+              className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-md font-medium"
             >
               {genre}
             </span>
           ))}
-          {movie.genres.length > 3 && (
-            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-full font-medium">
-              +{movie.genres.length - 3}
+          {movie.genres.length > 2 && (
+            <span className="px-2 py-1 bg-gray-100 text-gray-600 text-xs rounded-md font-medium">
+              +{movie.genres.length - 2}
             </span>
           )}
         </div>
@@ -113,13 +113,10 @@ const MovieCard: React.FC<MovieCardProps> = ({ movie, onClick }) => {
                 />
               ))}
             </div>
-            <span className="text-sm text-gray-600 ml-1">
-              ({formatRating(movie.averageRating)})
-            </span>
           </div>
           
           <div className="text-xs text-gray-500 group-hover:text-blue-600 transition-colors">
-            View Details →
+            →
           </div>
         </div>
       </div>

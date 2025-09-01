@@ -5,7 +5,6 @@ import {
   User,
   BookMarkedIcon,
   UserRoundPen,
-  Shield,
   LogOut,
 } from "lucide-react";
 import { useAppDispatch } from "../../redux/hooks";
@@ -39,18 +38,13 @@ const UserSidebar: React.FC = () => {
     },
     {
       icon: <UserRoundPen className="w-5 h-5" />,
-      label: "Orders",
-      path: "/account/orders",
+      label: "Watchlist",
+      path: "/account/watchlist",
     },
     {
       icon: <BookMarkedIcon className="w-5 h-5" />,
-      label: "Wishlist",
-      path: "/account/wishlist",
-    },
-    {
-      icon: <Shield className="w-5 h-5" />,
-      label: "Security",
-      path: "/account/security",
+      label: "Reviews",
+      path: "/account/reviews",
     },
   ];
 
