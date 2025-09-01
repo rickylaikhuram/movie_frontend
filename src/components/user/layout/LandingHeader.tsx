@@ -26,10 +26,10 @@ const LandingHeader: React.FC = () => {
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             <Link
-              to="/about"
+              to="/movies"
               className="text-gray-700 hover:text-blue-600 px-3 py-2 text-sm font-medium transition-colors"
             >
-              About
+              Movies
             </Link>
             <Link
               to="/services"
