@@ -7,9 +7,11 @@ import AccountLayout from "../components/user/layout/UserProfileLayout";
 import AccountDetails from "../pages/user/UserDetails";
 import Watchlist from "../pages/user/UserWatchlist";
 import Reviews from "../pages/user/UserReview";
+import HomePage from "../pages/Home";
 
 const UserRoutes = (
   <Route path="/" element={<MainLayout />}>
+    <Route index element={<HomePage />} />
     <Route path="movies" element={<Movies />} />
     <Route path="movies/:id" element={<MovieDetailsPage />} />
     <Route path="movies/:id" element={<MovieDetailsPage />} />
@@ -21,7 +23,7 @@ const UserRoutes = (
       <Route path="/account/reviews" element={<Reviews />}/>
     </Route>
     <Route path="*" element={<Error />} />
-     <Route path="/signin" element={<Navigate to="/account/profile" replace />} />
+     <Route path="/account" element={<Navigate to="/account/profile" replace />} />
   </Route>
 );
 

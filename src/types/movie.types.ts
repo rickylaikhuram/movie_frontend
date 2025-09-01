@@ -2,11 +2,9 @@
 export interface Movie {
   id: string;
   title: string;
-  synopsis: string;
   genres: string[];
   releaseYear: string;
   director: string;
-  cast: string[];
   posterUrl: string;
   averageRating: number | null;
 }

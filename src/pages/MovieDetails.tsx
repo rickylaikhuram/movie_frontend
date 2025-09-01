@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, lazy, Suspense } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import {
   ArrowLeft,
@@ -22,6 +22,9 @@ import {
   selectWatchlistLoading 
 } from "../redux/slice/watchlist";
 import { useAppDispatch, useAppSelector } from "../redux/hooks";
+
+// Lazy load the ReviewsSection component
+const ReviewsSection = lazy(() => import("../components/user/review/ReviewSection"));
 
 // Movie interface based on your API response
 interface Movie {
@@ -101,7 +104,7 @@ const MovieDetailsPage: React.FC = () => {
   ) => {
     const target = e.target as HTMLImageElement;
     target.src =
-      "https://via.placeholder.com/400x600/e5e7eb/9ca3af?text=No+Image";
+      "https://via.placeholder.com/400x600/374151/9ca3af?text=No+Image";
   };
 
   const handleBackdropError = (
@@ -127,11 +130,11 @@ const MovieDetailsPage: React.FC = () => {
   };
 
   const getRatingColor = (rating: number | null): string => {
-    if (!rating) return "text-gray-600";
-    if (rating >= 4) return "text-green-600";
-    if (rating >= 3) return "text-yellow-600";
-    if (rating >= 2) return "text-orange-600";
-    return "text-red-600";
+    if (!rating) return "text-gray-400";
+    if (rating >= 4) return "text-green-400";
+    if (rating >= 3) return "text-yellow-400";
+    if (rating >= 2) return "text-orange-400";
+    return "text-red-400";
   };
 
   const formatDate = (dateString: string): string => {
@@ -158,6 +161,10 @@ const MovieDetailsPage: React.FC = () => {
         },
       });
       setError(null);
+      // Refresh the movie data to show updated rating
+      if (id) {
+        fetchMovie(id);
+      }
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to Add review";
@@ -449,6 +456,17 @@ const MovieDetailsPage: React.FC = () => {
                   </div>
                 </div>
               </div>
+
+              {/* Reviews Section with Lazy Loading */}
+              {id && (
+                <Suspense fallback={
+                  <div className="mt-12">
+                    <div className="h-20 bg-gray-800 rounded-lg animate-pulse"></div>
+                  </div>
+                }>
+                  <ReviewsSection movieId={id} movieTitle={movie.title} />
+                </Suspense>
+              )}
             </div>
           </div>
         </div>
